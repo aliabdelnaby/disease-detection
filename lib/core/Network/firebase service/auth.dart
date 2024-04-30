@@ -40,18 +40,6 @@ class UserF {
 }
 
 class AuthBase {
-  Future<User?> login(String email, String password) async {
-    try {
-      await FirebaseAuth.instance
-          .signInWithEmailAndPassword(email: email, password: password);
-    } catch (e) {
-      if (kDebugMode) {
-        print(e.toString());
-      }
-      return null;
-    }
-    return null;
-  }
 
   Future<DocumentSnapshot<Object?>?> getUserData(String uid) async {
     final DocumentSnapshot snapshot =

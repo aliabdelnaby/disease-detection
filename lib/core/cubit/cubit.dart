@@ -1,9 +1,8 @@
 // ignore_for_file: avoid_print
 import 'dart:io';
-import 'dart:typed_data';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:image_picker/image_picker.dart';
@@ -19,6 +18,7 @@ class AppCubit extends Cubit<AppState> {
 
   static AppCubit get(context) => BlocProvider.of(context);
 
+  //! Load Model
   Future loadModel() async {
     Tflite.close();
     emit(ModelLoadedSTate());
@@ -32,6 +32,7 @@ class AppCubit extends Cubit<AppState> {
     });
   }
 
+  //! Load Brain Tumour Model 
   Future loadBrainTumourModel() async {
     Tflite.close();
     emit(ModelLoadedSTate());
@@ -45,8 +46,8 @@ class AppCubit extends Cubit<AppState> {
     });
   }
 
+  //! Pick Image From Phone
   final ImagePicker _picker = ImagePicker();
-
   Future pickImage({
     required double imageMean,
     required double imageStd,
@@ -72,6 +73,7 @@ class AppCubit extends Cubit<AppState> {
   File? iimage;
   late bool loading = true;
 
+  //! Classify Input Image
   void classifyImage({
     required File image,
     required double imageMean,
@@ -94,14 +96,14 @@ class AppCubit extends Cubit<AppState> {
     emit(FinalResultState());
   }
 
-  //make iimage and output = null function
+  //! Make iimage and output = null function
   void clearImage() {
     iimage = null;
     outputs = null;
     emit(ClearState());
   }
 
-  //save image to gallery function and permission function
+  //! Save image to gallery function and permission function
   Future<void> saveImage(Uint8List bytes) async {
     final status = await Permission.storage.request();
     if (status.isGranted) {
@@ -113,8 +115,8 @@ class AppCubit extends Cubit<AppState> {
     }
   }
 
+  //! Get News Method
   News news = News();
-
   void getNews() async {
     emit(NewsLoadState());
     await DioHelper.getData(
@@ -134,10 +136,11 @@ class AppCubit extends Cubit<AppState> {
     });
   }
 
-  //
+  
   AuthBase authBase = AuthBase();
   UserF user = UserF();
 
+  //! Sign Up Method
   Future<User?> signUp({
     required String email,
     required String password,
@@ -164,15 +167,16 @@ class AppCubit extends Cubit<AppState> {
       emit(SignUpDoneState());
       return user!;
     } on FirebaseAuthException catch (e) {
-      _signupUpHandleException(e);
+      _signUpHandleException(e);
     } catch (e) {
       emit(SignUpErrorState(error: e.toString()));
       print(e.toString());
     }
     return null;
   }
-
-  void _signupUpHandleException(FirebaseAuthException e) {
+  
+  //! Sign Up Handle Exception
+  void _signUpHandleException(FirebaseAuthException e) {
     if (e.code == 'weak-password') {
       emit(SignUpErrorState(error: 'The password provided is too weak.'));
     } else if (e.code == 'email-already-in-use') {
@@ -185,7 +189,7 @@ class AppCubit extends Cubit<AppState> {
     }
   }
 
-  //get data from firebase
+  //! Get data
   void getUserData(String uid) async {
     emit(GetUserDataLoadingState());
     await authBase
@@ -200,28 +204,37 @@ class AppCubit extends Cubit<AppState> {
       emit(GetUserDataErrorState(error.toString()));
     });
   }
-
-  void signIn({
+  //! Sign In Method
+  Future<void> signIn({
     required String email,
     required String password,
   }) async {
-    emit(SignInLoadingState());
-    await authBase
-        .login(
-      email,
-      password,
-    )
-        .then((value) {
-      if (value != null) {
-        getUserData(value.uid);
-      }
+    try {
+      emit(SignInLoadingState());
+      UserCredential userCredential =
+          await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+      getUserData(userCredential.user!.uid);
       emit(SignInDoneState());
-    }).catchError((error) {
-      print(error.toString());
-      emit(SignInErrorState(error.toString()));
-    });
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'user-not-found') {
+        emit(SignInErrorState(error: "No user found for that email."));
+      } else if (e.code == 'wrong-password') {
+        emit(SignInErrorState(error: "Wrong password provided for that user."));
+      } else {
+        emit(SignInErrorState(error: 'Check your Email and password!'));
+      }
+    } catch (e) {
+      if (kDebugMode) {
+        print(e.toString());
+      }
+      emit(SignInErrorState(error: e.toString()));
+    }
   }
 
+  //! Sign Out Method
   void signOut() async {
     emit(SignOutLoadingState());
     await authBase.logout().then((value) {

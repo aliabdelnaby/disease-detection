@@ -39,7 +39,8 @@ class SignInDoneState extends AppState {}
 
 class SignInErrorState extends AppState {
   final String error;
-  SignInErrorState(this.error);
+
+  SignInErrorState({required this.error});
 }
 
 class SignOutLoadingState extends AppState {}

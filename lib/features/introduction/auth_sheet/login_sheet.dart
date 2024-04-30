@@ -32,34 +32,6 @@ class _AuthSheetState extends State<AuthSheet> {
   final _formKey = GlobalKey<FormState>();
   bool isPassword = true;
 
-  // Future<void> googleSignIn() async {
-  //   final GoogleSignIn googleSignIn = GoogleSignIn();
-  //   final GoogleSignInAccount? googleSignInAccount =
-  //       await googleSignIn.signIn();
-
-  //   if (googleSignInAccount != null) {
-  //     final userr = FirebaseAuth.instance.currentUser;
-  //     final store = FirebaseFirestore.instance;
-
-  //     if (userr != null) {
-  //       store.collection('users').doc(userr.uid).set({
-  //         'name': userr.displayName,
-  //         'uid': userr.uid,
-  //         'email': userr.email,
-  //         'gender': null,
-  //         'imageurl': null,
-  //         'imageurl2': null,
-  //       });
-  //     } else {
-  //       if (kDebugMode) {
-  //         print('try later ');
-  //       }
-  //     }
-  //     Navigator.pushReplacement(
-  //         context, MaterialPageRoute(builder: (context) => const Homepage()));
-  //   }
-  // }
-
   @override
   Widget build(BuildContext context) {
     final deviceSize = MediaQuery.of(context).size;
@@ -72,17 +44,15 @@ class _AuthSheetState extends State<AuthSheet> {
               content: Text(state.error),
             ),
           );
-        }
-        if (state is SignInDoneState) {
-          Navigator.of(context)
-              .pushNamedAndRemoveUntil('/Home', (route) => false);
+        } else if (state is SignInDoneState) {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
-              duration: Duration(microseconds: 500),
-              backgroundColor: Colors.blue,
-              content: Text('Loading...'),
+              backgroundColor: Colors.green,
+              content: Text('Welcome Back!'),
             ),
           );
+          Navigator.of(context)
+              .pushNamedAndRemoveUntil('/Home', (route) => false);
         }
       },
       builder: (context, state) {
@@ -126,7 +96,7 @@ class _AuthSheetState extends State<AuthSheet> {
                         height: 20,
                       ),
                       const Text(
-                        'Welcome back.,',
+                        'Welcome back!',
                         style: TextStyle(
                           fontSize: 25,
                           color: Colors.white,
@@ -222,7 +192,7 @@ class _AuthSheetState extends State<AuthSheet> {
                                 ),
                               ),
                               child: const Text('Sign in'),
-                            ), // زرار sign in
+                            ),
                             const SizedBox(height: 12),
                             SizedBox(
                               height: 24,
@@ -273,51 +243,31 @@ class _AuthSheetState extends State<AuthSheet> {
                               alignment: Alignment.center,
                               child: RichText(
                                 text: TextSpan(
-                                    style: const TextStyle(color: Colors.grey),
-                                    children: [
-                                      const TextSpan(
-                                          text: 'Don\'t have an account? ',
-                                          style:
-                                              TextStyle(color: Colors.white)),
-                                      TextSpan(
-                                        text: ' Register Now',
-                                        style: const TextStyle(
-                                            color: Color(0xff03045E),
-                                            fontWeight: FontWeight.w600,
-                                            fontSize: 15),
-                                        recognizer: TapGestureRecognizer()
-                                          ..onTap = () {
-                                            FocusScope.of(context).unfocus();
-                                            Navigator.pushNamed(
-                                                context, '/signup');
-                                          },
-                                      ),
-                                    ]),
+                                  style: const TextStyle(color: Colors.grey),
+                                  children: [
+                                    const TextSpan(
+                                        text: 'Don\'t have an account? ',
+                                        style: TextStyle(color: Colors.white)),
+                                    TextSpan(
+                                      text: ' Register Now',
+                                      style: const TextStyle(
+                                          color: Color(0xff03045E),
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 15),
+                                      recognizer: TapGestureRecognizer()
+                                        ..onTap = () {
+                                          FocusScope.of(context).unfocus();
+                                          Navigator.pushNamed(
+                                            context,
+                                            '/signup',
+                                          );
+                                        },
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
                             const SizedBox(height: 10),
-                            // ElevatedButton.icon(
-                            //   style: ElevatedButton.styleFrom(
-                            //     shape: RoundedRectangleBorder(
-                            //       borderRadius: BorderRadius.circular(20),
-                            //     ),
-                            //     foregroundColor: Colors.grey,
-                            //     backgroundColor: Colors.white,
-                            //     maximumSize: const Size(300, 50),
-                            //     minimumSize: const Size(300, 50),
-                            //   ),
-                            //   onPressed: () async {
-                            //     await googleSignIn();
-                            //   },
-                            //   icon: SvgPicture.asset(
-                            //     "assets/googleicon.svg",
-                            //     height: 32,
-                            //   ),
-                            //   label: const Text(
-                            //     'Sign in with Google',
-                            //     style: TextStyle(fontSize: 20),
-                            //   ),
-                            // ),
                           ],
                         ),
                       ),
