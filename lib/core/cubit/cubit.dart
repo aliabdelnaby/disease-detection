@@ -1,4 +1,3 @@
-// ignore_for_file: avoid_print
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -6,7 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:medical_corner/core/Network/firebase%20service/auth.dart';
+import 'package:medical_corner/core/Network/firebase%20service/userf.dart';
 import 'package:medical_corner/core/Network/news%20api%20service/dio_helper.dart';
 import 'package:medical_corner/core/cubit/states.dart';
 import 'package:medical_corner/features/news/data_models/news.dart';
@@ -16,7 +15,6 @@ import 'package:tflite/tflite.dart';
 class AppCubit extends Cubit<AppState> {
   AppCubit() : super(IntiAppState());
 
-  AuthBase authBase = AuthBase();
   UserF user = UserF();
   static AppCubit get(context) => BlocProvider.of(context);
   final ImagePicker _picker = ImagePicker();
@@ -26,7 +24,7 @@ class AppCubit extends Cubit<AppState> {
   News news = News();
   double postop = 0.8;
 
-  //! Load Model
+  //! Load Pneumonia Model
   Future loadModel() async {
     Tflite.close();
     emit(ModelLoadedSTate());
@@ -36,7 +34,9 @@ class AppCubit extends Cubit<AppState> {
     ).then((value) {
       loading = false;
       emit(ModelLoadedSTate());
-      print('pneumonia model loaded');
+      if (kDebugMode) {
+        print('pneumonia model loaded');
+      }
     });
   }
 
@@ -50,7 +50,9 @@ class AppCubit extends Cubit<AppState> {
     ).then((value) {
       loading = false;
       emit(ModelLoadedSTate());
-      print('brain tumour model loaded');
+      if (kDebugMode) {
+        print('brain tumour model loaded');
+      }
     });
   }
 
@@ -94,8 +96,12 @@ class AppCubit extends Cubit<AppState> {
     );
     loading = false;
     outputs = output!;
-    print(outputs);
-    print(imageStd);
+    if (kDebugMode) {
+      print(outputs);
+    }
+    if (kDebugMode) {
+      print(imageStd);
+    }
     emit(FinalResultState());
   }
 
@@ -112,9 +118,13 @@ class AppCubit extends Cubit<AppState> {
     if (status.isGranted) {
       final result = await ImageGallerySaver.saveImage(
           Uint8List.fromList(bytes.buffer.asUint8List()));
-      print(result);
+      if (kDebugMode) {
+        print(result);
+      }
     } else {
-      print('permission denied');
+      if (kDebugMode) {
+        print('permission denied');
+      }
     }
   }
 
@@ -130,10 +140,14 @@ class AppCubit extends Cubit<AppState> {
       },
     ).then((value) {
       news = News.fromJson(value.data);
-      print(news.articles![0].title);
+      if (kDebugMode) {
+        print(news.articles![0].title);
+      }
       emit(NewsDoneState());
     }).catchError((error) {
-      print(error.toString());
+      if (kDebugMode) {
+        print(error.toString());
+      }
       emit(NewsErrorState(error.toString()));
     });
   }
@@ -169,7 +183,9 @@ class AppCubit extends Cubit<AppState> {
       _signUpHandleException(e);
     } catch (e) {
       emit(SignUpErrorState(error: e.toString()));
-      print(e.toString());
+      if (kDebugMode) {
+        print(e.toString());
+      }
     }
     return null;
   }
@@ -202,7 +218,9 @@ class AppCubit extends Cubit<AppState> {
         emit(GetUserDataErrorState(error: "User data not found"));
       }
     } catch (error) {
-      print(error.toString());
+      if (kDebugMode) {
+        print(error.toString());
+      }
       emit(GetUserDataErrorState(error: error.toString()));
     }
   }
@@ -239,13 +257,16 @@ class AppCubit extends Cubit<AppState> {
 
   //! Sign Out Method
   void signOut() async {
-    emit(SignOutLoadingState());
-    await authBase.logout().then((value) {
+    try {
+      emit(SignOutLoadingState());
+      await FirebaseAuth.instance.signOut();
       emit(SignOutDoneState());
-    }).catchError((error) {
-      print(error.toString());
+    } catch (error) {
+      if (kDebugMode) {
+        print(error.toString());
+      }
       emit(SignOutErrorState(error.toString()));
-    });
+    }
   }
 
   //! Slide Up and Down

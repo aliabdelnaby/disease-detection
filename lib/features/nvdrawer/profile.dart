@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import '../../core/cubit/cubit.dart';
 import '../../core/cubit/states.dart';
 
@@ -10,12 +9,7 @@ class Profile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<AppCubit, AppState>(
-      listener: (context, state) {
-        // if(AppCubit.get(context).user.email == null){
-        //   User user = FirebaseAuth.instance.currentUser!;
-        //   AppCubit.get(context).getUserData(user.uid);
-        // }
-      },
+      listener: (context, state) {},
       builder: (context, state) {
         AppCubit cubit = AppCubit.get(context);
         return Scaffold(
@@ -57,7 +51,8 @@ class Profile extends StatelessWidget {
                       children: [
                         const CircleAvatar(
                           backgroundImage: NetworkImage(
-                              'https://cdn.pixabay.com/photo/2015/03/04/22/35/head-659652_960_720.png'),
+                            'https://cdn.pixabay.com/photo/2015/03/04/22/35/head-659652_960_720.png',
+                          ),
                           radius: 90,
                         ),
                         const SizedBox(height: 20),
