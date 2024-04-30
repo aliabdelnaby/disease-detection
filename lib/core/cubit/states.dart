@@ -29,7 +29,8 @@ class SignUpDoneState extends AppState {}
 
 class SignUpErrorState extends AppState {
   final String error;
-  SignUpErrorState(this.error);
+
+  SignUpErrorState({required this.error});
 }
 
 class SignInLoadingState extends AppState {}

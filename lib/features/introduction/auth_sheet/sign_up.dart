@@ -26,6 +26,12 @@ class _SignUpState extends State<SignUp> {
     return BlocConsumer<AppCubit, AppState>(
       listener: (context, state) {
         if (state is SignUpDoneState) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              backgroundColor: Colors.green,
+              content: Text('Your account has been created'),
+            ),
+          );
           Navigator.of(context).pushReplacementNamed('/Home');
         }
         if (state is SignUpErrorState) {
@@ -33,14 +39,6 @@ class _SignUpState extends State<SignUp> {
             SnackBar(
               backgroundColor: Colors.red,
               content: Text(state.error),
-            ),
-          );
-        }
-        if (state is SignUpLoadingState) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              backgroundColor: Colors.blue,
-              content: Text('Loading...'),
             ),
           );
         }
@@ -104,6 +102,8 @@ class _SignUpState extends State<SignUp> {
                         validator: (value) {
                           if (value.isEmpty) {
                             return 'Please enter your password';
+                          } else if (value.length < 6) {
+                            return "Must be more than 6 characters";
                           }
                         },
                         suffixIcon: IconButton(
@@ -119,72 +119,76 @@ class _SignUpState extends State<SignUp> {
                         ),
                       ),
                       SizedBox(height: deviceSize.height * 0.02),
-                      MyFormField(
-                        label: 'Re-Password',
-                        hint: 'Enter your password again',
-                        prefixIcon: Icons.lock,
-                        isPassword: isPassword,
-                        controller: repasswordController,
-                        validator: (value) {
-                          if (value.isEmpty) {
-                            return 'Please enter your password again';
-                          } else if (value != passwordController.text) {
-                            return 'Password not match';
-                          }
-                        },
-                        suffixIcon: IconButton(
-                          icon: Icon(
-                            Icons.remove_red_eye,
-                            color: isPassword ? Colors.grey : Colors.blue,
-                          ),
-                          onPressed: () {
-                            setState(() {
-                              isPassword = !isPassword;
-                            });
-                          },
-                        ),
-                        onSubmit: (value) {
-                          if (_formKey.currentState!.validate()) {
-                            cubit.signUp(
-                              email: emailController.text,
-                              password: passwordController.text,
-                              name: nameController.text,
-                            );
-                          }
-                        },
-                      ),
+                      // MyFormField(
+                      //   label: 'Re-Password',
+                      //   hint: 'Enter your password again',
+                      //   prefixIcon: Icons.lock,
+                      //   isPassword: isPassword,
+                      //   controller: repasswordController,
+                      //   validator: (value) {
+                      //     if (value.isEmpty) {
+                      //       return 'Please enter your password again';
+                      //     } else if (value != passwordController.text) {
+                      //       return 'Password not match';
+                      //     }
+                      //   },
+                      //   suffixIcon: IconButton(
+                      //     icon: Icon(
+                      //       Icons.remove_red_eye,
+                      //       color: isPassword ? Colors.grey : Colors.blue,
+                      //     ),
+                      //     onPressed: () {
+                      //       setState(() {
+                      //         isPassword = !isPassword;
+                      //       });
+                      //     },
+                      //   ),
+                      //   onSubmit: (value) {
+                      //     if (_formKey.currentState!.validate()) {
+                      //       cubit.signUp(
+                      //         email: emailController.text,
+                      //         password: passwordController.text,
+                      //         name: nameController.text,
+                      //       );
+                      //     }
+                      //   },
+                      // ),
                       SizedBox(height: deviceSize.height * 0.02),
                       const SizedBox(height: 10),
-                      ElevatedButton(
-                        onPressed: () async {
-                          if (_formKey.currentState!.validate()) {
-                            cubit.signUp(
-                              email: emailController.text,
-                              password: passwordController.text,
-                              name: nameController.text,
-                            );
-                          }
-                          FocusScope.of(context).unfocus();
-                        },
-                        style: ElevatedButton.styleFrom(
-                          foregroundColor: Colors.white,
-                          elevation: 5,
-                          shadowColor: Colors.black,
-                          backgroundColor: const Color(0xff71bbff),
-                          textStyle: const TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                          ),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          minimumSize: Size(
-                            deviceSize.width * 1,
-                            deviceSize.height * 0.075,
-                          ),
-                        ),
-                        child: const Text('Sign Up'),
-                      ),
+                      state is SignUpLoadingState
+                          ? const CircularProgressIndicator(
+                              color: Colors.white,
+                            )
+                          : ElevatedButton(
+                              onPressed: () async {
+                                if (_formKey.currentState!.validate()) {
+                                  cubit.signUp(
+                                    email: emailController.text,
+                                    password: passwordController.text,
+                                    name: nameController.text,
+                                  );
+                                }
+                                FocusScope.of(context).unfocus();
+                              },
+                              style: ElevatedButton.styleFrom(
+                                foregroundColor: Colors.white,
+                                elevation: 5,
+                                shadowColor: Colors.black,
+                                backgroundColor: const Color(0xff71bbff),
+                                textStyle: const TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                                minimumSize: Size(
+                                  deviceSize.width * 1,
+                                  deviceSize.height * 0.075,
+                                ),
+                              ),
+                              child: const Text('Sign Up'),
+                            ),
                       const SizedBox(
                         height: 10,
                       ),

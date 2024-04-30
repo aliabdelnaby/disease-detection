@@ -2,6 +2,8 @@
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:image_picker/image_picker.dart';
@@ -136,25 +138,51 @@ class AppCubit extends Cubit<AppState> {
   AuthBase authBase = AuthBase();
   UserF user = UserF();
 
-  void signUp({
+  Future<User?> signUp({
     required String email,
     required String password,
     required String name,
   }) async {
-    emit(SignUpLoadingState());
-    await authBase
-        .register(
-      email,
-      password,
-      name,
-    )
-        .then((value) {
-      getUserData(value!.uid);
+    try {
+      emit(SignUpLoadingState());
+      await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+      final user = FirebaseAuth.instance.currentUser;
+      if (user != null) {
+        await FirebaseFirestore.instance.collection('users').doc(user.uid).set({
+          'name': name,
+          'uid': user.uid,
+          'email': user.email,
+          'image_url_pneumonia': null,
+          'image_url_brain_tumor': null,
+          'profile_image_url': null,
+          'password': password,
+        });
+      }
       emit(SignUpDoneState());
-    }).catchError((error) {
-      print(error.toString());
-      emit(SignUpErrorState(error.toString()));
-    });
+      return user!;
+    } on FirebaseAuthException catch (e) {
+      _signupUpHandleException(e);
+    } catch (e) {
+      emit(SignUpErrorState(error: e.toString()));
+      print(e.toString());
+    }
+    return null;
+  }
+
+  void _signupUpHandleException(FirebaseAuthException e) {
+    if (e.code == 'weak-password') {
+      emit(SignUpErrorState(error: 'The password provided is too weak.'));
+    } else if (e.code == 'email-already-in-use') {
+      emit(SignUpErrorState(
+          error: 'The account already exists for that email.'));
+    } else if (e.code == 'invalid-email') {
+      emit(SignUpErrorState(error: 'The email is invalid.'));
+    } else {
+      emit(SignUpErrorState(error: e.code));
+    }
   }
 
   //get data from firebase

@@ -40,12 +40,12 @@ class MyFormField extends StatelessWidget {
           keyboardType: keyboardType,
           autofocus: isAutoFocus ?? false,
           obscureText: isPassword ?? false,
-          onFieldSubmitted: (value) => onSubmit!(value) ?? "",
+          // onFieldSubmitted: (value) => onSubmit!(value) ?? "",
           decoration: InputDecoration(
-            errorStyle: const TextStyle(
-              color: Colors.blue,
-              fontSize: 15,
-            ),
+            // errorStyle: const TextStyle(
+            //   color: Colors.blue,
+            //   fontSize: 15,
+            // ),
             hintStyle: TextStyle(color: Colors.grey.shade400),
             hintText: hint,
             border: InputBorder.none,

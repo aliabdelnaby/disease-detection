@@ -26,7 +26,7 @@ class UserF {
       email: firebaseUser.email,
     );
   }
-  
+
   factory UserF.fromDocument(DocumentSnapshot doc) {
     return UserF(
       uid: doc['uid'],
@@ -49,31 +49,6 @@ class AuthBase {
         print(e.toString());
       }
       return null;
-    }
-    return null;
-  }
-
-  Future<User?> register(String email, String password, String name) async {
-    try {
-      await FirebaseAuth.instance
-          .createUserWithEmailAndPassword(email: email, password: password);
-      final user = FirebaseAuth.instance.currentUser;
-      if (user != null) {
-        await FirebaseFirestore.instance.collection('users').doc(user.uid).set({
-          'name': name,
-          'uid': user.uid,
-          'email': user.email,
-          'image_url_pneumonia': null,
-          'image_url_brain_tumor': null,
-          'profile_image_url': null,
-          'password': password,
-        });
-      }
-      return user!;
-    } catch (e) {
-      if (kDebugMode) {
-        print(e.toString());
-      }
     }
     return null;
   }
