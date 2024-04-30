@@ -58,5 +58,6 @@ class GetUserDataDoneState extends AppState {}
 
 class GetUserDataErrorState extends AppState {
   final String error;
-  GetUserDataErrorState(this.error);
+
+  GetUserDataErrorState({required this.error});
 }

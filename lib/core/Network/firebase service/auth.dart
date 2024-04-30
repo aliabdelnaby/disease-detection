@@ -1,7 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/foundation.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 
 class UserF {
   String? uid;
@@ -41,49 +39,38 @@ class UserF {
 
 class AuthBase {
 
-  Future<DocumentSnapshot<Object?>?> getUserData(String uid) async {
-    final DocumentSnapshot snapshot =
-        await FirebaseFirestore.instance.collection("users").doc(uid).get();
-
-    if (snapshot.exists) {
-      return snapshot;
-    } else {
-      return null;
-    }
-  }
-
-  Future<UserF?> googleSignUp() async {
-    try {
-      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
-      final GoogleSignInAuthentication googleAuth =
-          await googleUser!.authentication;
-      final AuthCredential credential = GoogleAuthProvider.credential(
-        accessToken: googleAuth.accessToken,
-        idToken: googleAuth.idToken,
-      );
-      await FirebaseAuth.instance
-          .signInWithCredential(credential)
-          .then((value) {
-        FirebaseFirestore.instance
-            .collection('users')
-            .doc(value.user!.uid)
-            .set({
-          'email': value.user!.email,
-          'name': value.user!.displayName,
-          'profile_image_url': value.user!.photoURL,
-          'uid': value.user!.uid,
-          'image_url_pneumonia': null,
-          'image_url_brain_tumor': null,
-        });
-      });
-    } catch (e) {
-      if (kDebugMode) {
-        print(e.toString());
-      }
-      return null;
-    }
-    return null;
-  }
+  // Future<UserF?> googleSignUp() async {
+  //   try {
+  //     final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+  //     final GoogleSignInAuthentication googleAuth =
+  //         await googleUser!.authentication;
+  //     final AuthCredential credential = GoogleAuthProvider.credential(
+  //       accessToken: googleAuth.accessToken,
+  //       idToken: googleAuth.idToken,
+  //     );
+  //     await FirebaseAuth.instance
+  //         .signInWithCredential(credential)
+  //         .then((value) {
+  //       FirebaseFirestore.instance
+  //           .collection('users')
+  //           .doc(value.user!.uid)
+  //           .set({
+  //         'email': value.user!.email,
+  //         'name': value.user!.displayName,
+  //         'profile_image_url': value.user!.photoURL,
+  //         'uid': value.user!.uid,
+  //         'image_url_pneumonia': null,
+  //         'image_url_brain_tumor': null,
+  //       });
+  //     });
+  //   } catch (e) {
+  //     if (kDebugMode) {
+  //       print(e.toString());
+  //     }
+  //     return null;
+  //   }
+  //   return null;
+  // }
 
   Future<void> logout() async {
     await FirebaseAuth.instance.signOut();

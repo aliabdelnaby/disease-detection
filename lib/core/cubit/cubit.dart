@@ -16,7 +16,15 @@ import 'package:tflite/tflite.dart';
 class AppCubit extends Cubit<AppState> {
   AppCubit() : super(IntiAppState());
 
+  AuthBase authBase = AuthBase();
+  UserF user = UserF();
   static AppCubit get(context) => BlocProvider.of(context);
+  final ImagePicker _picker = ImagePicker();
+  late List? outputs;
+  File? iimage;
+  late bool loading = true;
+  News news = News();
+  double postop = 0.8;
 
   //! Load Model
   Future loadModel() async {
@@ -32,7 +40,7 @@ class AppCubit extends Cubit<AppState> {
     });
   }
 
-  //! Load Brain Tumour Model 
+  //! Load Brain Tumour Model
   Future loadBrainTumourModel() async {
     Tflite.close();
     emit(ModelLoadedSTate());
@@ -47,7 +55,6 @@ class AppCubit extends Cubit<AppState> {
   }
 
   //! Pick Image From Phone
-  final ImagePicker _picker = ImagePicker();
   Future pickImage({
     required double imageMean,
     required double imageStd,
@@ -68,10 +75,6 @@ class AppCubit extends Cubit<AppState> {
     );
     emit(ClassifyImageState());
   }
-
-  late List? outputs;
-  File? iimage;
-  late bool loading = true;
 
   //! Classify Input Image
   void classifyImage({
@@ -116,7 +119,6 @@ class AppCubit extends Cubit<AppState> {
   }
 
   //! Get News Method
-  News news = News();
   void getNews() async {
     emit(NewsLoadState());
     await DioHelper.getData(
@@ -135,10 +137,6 @@ class AppCubit extends Cubit<AppState> {
       emit(NewsErrorState(error.toString()));
     });
   }
-
-  
-  AuthBase authBase = AuthBase();
-  UserF user = UserF();
 
   //! Sign Up Method
   Future<User?> signUp({
@@ -164,8 +162,9 @@ class AppCubit extends Cubit<AppState> {
           'password': password,
         });
       }
+      getUserData(user!.uid);
       emit(SignUpDoneState());
-      return user!;
+      return user;
     } on FirebaseAuthException catch (e) {
       _signUpHandleException(e);
     } catch (e) {
@@ -174,7 +173,7 @@ class AppCubit extends Cubit<AppState> {
     }
     return null;
   }
-  
+
   //! Sign Up Handle Exception
   void _signUpHandleException(FirebaseAuthException e) {
     if (e.code == 'weak-password') {
@@ -191,19 +190,23 @@ class AppCubit extends Cubit<AppState> {
 
   //! Get data
   void getUserData(String uid) async {
-    emit(GetUserDataLoadingState());
-    await authBase
-        .getUserData(
-      uid,
-    )
-        .then((value) {
-      user = UserF.fromDocument(value!);
-      emit(GetUserDataDoneState());
-    }).catchError((error) {
+    try {
+      emit(GetUserDataLoadingState());
+      DocumentSnapshot<Map<String, dynamic>> snapshot =
+          await FirebaseFirestore.instance.collection("users").doc(uid).get();
+
+      if (snapshot.exists) {
+        user = UserF.fromDocument(snapshot);
+        emit(GetUserDataDoneState());
+      } else {
+        emit(GetUserDataErrorState(error: "User data not found"));
+      }
+    } catch (error) {
       print(error.toString());
-      emit(GetUserDataErrorState(error.toString()));
-    });
+      emit(GetUserDataErrorState(error: error.toString()));
+    }
   }
+
   //! Sign In Method
   Future<void> signIn({
     required String email,
@@ -245,8 +248,7 @@ class AppCubit extends Cubit<AppState> {
     });
   }
 
-  double postop = 0.8;
-
+  //! Slide Up and Down
   double? topup(String pos) {
     if (pos == 'up') {
       postop = 0;
