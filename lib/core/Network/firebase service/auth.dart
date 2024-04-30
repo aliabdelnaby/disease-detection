@@ -10,13 +10,15 @@ class UserF {
   String? name;
   String? brainTumorImage;
   String? pneumoniaImage;
-  UserF(
-      {this.uid,
-      this.email,
-      this.name,
-      this.brainTumorImage,
-      this.pneumoniaImage,
-      this.profileImageUrl});
+
+  UserF({
+    this.uid,
+    this.email,
+    this.name,
+    this.brainTumorImage,
+    this.pneumoniaImage,
+    this.profileImageUrl,
+  });
 
   factory UserF.fromFirebase(UserF firebaseUser) {
     return UserF(
@@ -24,6 +26,7 @@ class UserF {
       email: firebaseUser.email,
     );
   }
+  
   factory UserF.fromDocument(DocumentSnapshot doc) {
     return UserF(
       uid: doc['uid'],

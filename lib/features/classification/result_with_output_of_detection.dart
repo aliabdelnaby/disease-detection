@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:medical_corner/core/cubit/cubit.dart';
+
+import '../../core/cubit/cubit.dart';
 
 class Result1 extends StatelessWidget {
   const Result1({super.key, required this.cubit});

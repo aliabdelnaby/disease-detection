@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:medical_corner/core/const/screens_names.dart';
-import 'package:medical_corner/core/router/custom_page_route.dart';
-import 'package:medical_corner/features/classification/brain%20tumour/brain_tumour.dart';
-import 'package:medical_corner/features/classification/pneumonia/pneumonia_screen.dart';
-import 'package:medical_corner/features/nvdrawer/contactus.dart';
-import 'package:medical_corner/features/nvdrawer/aboutus.dart';
-import 'package:medical_corner/features/nvdrawer/profile.dart';
-import 'package:medical_corner/features/prediction/diabetes_screen.dart';
-import 'package:medical_corner/features/prediction/heart_screen.dart';
-import 'package:medical_corner/features/home.dart';
-import 'package:medical_corner/features/introduction/auth_sheet/sign_up.dart';
-import 'package:medical_corner/features/introduction/introduction.dart';
-import 'package:medical_corner/features/splash.dart';
+
+import '../../features/classification/brain%20tumour/brain_tumour.dart';
+import '../../features/classification/pneumonia/pneumonia_screen.dart';
+import '../../features/home.dart';
+import '../../features/introduction/auth_sheet/sign_up.dart';
+import '../../features/introduction/introduction.dart';
+import '../../features/nvdrawer/aboutus.dart';
+import '../../features/nvdrawer/contactus.dart';
+import '../../features/nvdrawer/profile.dart';
+import '../../features/prediction/diabetes_screen.dart';
+import '../../features/prediction/heart_screen.dart';
+import '../../features/splash.dart';
+import '../const/screens_names.dart';
+import 'custom_page_route.dart';
 
 class AppRouter {
   late Widget startScreen;

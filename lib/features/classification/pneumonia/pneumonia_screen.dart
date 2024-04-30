@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:medical_corner/core/cubit/cubit.dart';
-import 'package:medical_corner/core/cubit/states.dart';
-import 'package:medical_corner/features/classification/detection_lab.dart';
-import 'package:medical_corner/features/custom_widgets/open_close_Text_box.dart';
+
+import '../../../core/cubit/cubit.dart';
+import '../../../core/cubit/states.dart';
+import '../../custom_widgets/open_close_Text_box.dart';
+import '../detection_lab.dart';
 import 'last_rsult_pneumonia.dart';
 
 class PneumoniaScreen extends StatelessWidget {

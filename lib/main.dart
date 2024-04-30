@@ -13,14 +13,13 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   DioHelper.init();
-  BlocOverrides.runZoned(
-    () {
-      runApp(MyApp(
-        app: AppCubit()..getNews(),
-      ));
-    },
-    blocObserver: MyBlocObserver(),
+
+  runApp(
+    MyApp(
+      app: AppCubit()..getNews(),
+    ),
   );
+  Bloc.observer = MyBlocObserver();
 }
 
 class MyApp extends StatelessWidget {

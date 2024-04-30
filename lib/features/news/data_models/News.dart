@@ -1,4 +1,4 @@
-import 'Articles.dart';
+import 'articles.dart';
 
 class News {
   News({

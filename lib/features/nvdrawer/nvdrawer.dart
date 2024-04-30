@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:medical_corner/core/cubit/cubit.dart';
+
+import '../../core/cubit/cubit.dart';
 
 class Nvdrawer extends StatelessWidget {
   const Nvdrawer({super.key});

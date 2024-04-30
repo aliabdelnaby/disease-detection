@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:medical_corner/features/custom_widgets/open_close_Text_box.dart';
+
+import '../custom_widgets/open_close_Text_box.dart';
 
 class DiabetesScreen extends StatelessWidget {
   const DiabetesScreen({super.key});

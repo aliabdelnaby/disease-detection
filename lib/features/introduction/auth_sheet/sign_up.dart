@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:medical_corner/core/cubit/cubit.dart';
-import 'package:medical_corner/core/cubit/states.dart';
-import 'package:medical_corner/features/custom_widgets/my_form_field.dart';
+
+import '../../../core/cubit/cubit.dart';
+import '../../../core/cubit/states.dart';
+import '../../custom_widgets/my_form_field.dart';
 
 class SignUp extends StatefulWidget {
   const SignUp({super.key});

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:medical_corner/core/cubit/cubit.dart';
-import 'package:medical_corner/features/classification/detection_lab.dart';
-import 'package:medical_corner/features/custom_widgets/open_close_Text_box.dart';
+
+import '../../../core/cubit/cubit.dart';
+import '../../custom_widgets/open_close_Text_box.dart';
+import '../detection_lab.dart';
 import 'last_rsult_braintumour.dart';
 
 class BrainScreen extends StatelessWidget {

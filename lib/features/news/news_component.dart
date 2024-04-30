@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:medical_corner/features/news/data_models/Articles.dart';
 
-// ignore: must_be_immutable
+import 'data_models/articles.dart';
+
 class ItemList extends StatelessWidget {
-  Articles artical;
-
-  ItemList({Key? key, required this.artical}) : super(key: key);
+  const ItemList({super.key, required this.artical});
+  final Articles artical;
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +22,7 @@ class ItemList extends StatelessWidget {
                     child: Hero(
                       tag: artical.title![0],
                       child: Image.asset(
-                        'assets/images/warning.png',
+                        'assets/images/errorImage.jpeg',
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -56,23 +55,27 @@ class ItemList extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Expanded(
-                      child: Text(
-                    artical.title!,
-                    style: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.black),
-                    maxLines: 4,
-                    overflow: TextOverflow.ellipsis,
-                  )),
+                    child: Text(
+                      artical.title!,
+                      style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.black),
+                      maxLines: 4,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
                   Text(
-                    DateFormat('yMMMMEEEEd').add_jm().format(DateTime.parse(
-                          "${artical.publishedAt}",
-                        )),
+                    DateFormat('yMMMMEEEEd').add_jm().format(
+                          DateTime.parse(
+                            "${artical.publishedAt}",
+                          ),
+                        ),
                     style: const TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black),
+                      fontSize: 12,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
+                    ),
                   )
                 ],
               ),

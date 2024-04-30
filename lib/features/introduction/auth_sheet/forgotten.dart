@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:medical_corner/features/custom_widgets/my_form_field.dart';
+
+import '../../custom_widgets/my_form_field.dart';
 
 class Forgotten extends StatefulWidget {
   const Forgotten({super.key});

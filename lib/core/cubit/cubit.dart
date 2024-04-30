@@ -1,13 +1,14 @@
 // ignore_for_file: avoid_print
 import 'dart:io';
 import 'dart:typed_data';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:medical_corner/core/Network/firebase%20service/auth.dart';
 import 'package:medical_corner/core/Network/news%20api%20service/dio_helper.dart';
 import 'package:medical_corner/core/cubit/states.dart';
-import 'package:medical_corner/features/news/data_models/News.dart';
+import 'package:medical_corner/features/news/data_models/news.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:tflite/tflite.dart';
 

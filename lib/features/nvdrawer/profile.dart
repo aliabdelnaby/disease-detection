@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:medical_corner/core/cubit/cubit.dart';
-import 'package:medical_corner/core/cubit/states.dart';
+
+import '../../core/cubit/cubit.dart';
+import '../../core/cubit/states.dart';
 
 class Profile extends StatelessWidget {
   const Profile({super.key});
