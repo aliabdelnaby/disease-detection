@@ -1,8 +1,9 @@
 import 'package:animated_splash_screen/animated_splash_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
+import 'package:medical_corner/features/home.dart';
 import 'package:page_transition/page_transition.dart';
-
 import 'introduction/introduction.dart';
 
 class SplashScreen extends StatelessWidget {
@@ -12,7 +13,9 @@ class SplashScreen extends StatelessWidget {
     return AnimatedSplashScreen(
       splash: Lottie.asset('assets/lottie_animations/splash.json'),
       backgroundColor: Colors.lightBlue,
-      nextScreen: const IntroductionPage(),
+      nextScreen: FirebaseAuth.instance.currentUser != null
+          ? const Homepage()
+          : const IntroductionPage(),
       splashIconSize: 300,
       duration: 2000,
       splashTransition: SplashTransition.fadeTransition,
