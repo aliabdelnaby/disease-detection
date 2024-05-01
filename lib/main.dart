@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -6,6 +7,8 @@ import 'package:medical_corner/core/cubit/observer.dart';
 import 'package:medical_corner/core/cubit/states.dart';
 import 'package:medical_corner/core/function/check_state_changes.dart';
 import 'package:medical_corner/core/router/app_router.dart';
+import 'package:medical_corner/features/home.dart';
+import 'package:medical_corner/features/introduction/introduction.dart';
 import 'core/Network/news api service/dio_helper.dart';
 
 void main() async {
@@ -36,6 +39,9 @@ class MyApp extends StatelessWidget {
           return MaterialApp(
             debugShowCheckedModeBanner: false,
             onGenerateRoute: AppRouter().onGenerateRoute,
+            home: FirebaseAuth.instance.currentUser != null
+            ? const Homepage()
+            : const IntroductionPage(),
           );
         },
       ),
