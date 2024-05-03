@@ -52,6 +52,16 @@ class SignOutErrorState extends AppState {
   SignOutErrorState(this.error);
 }
 
+class ResetPasswordLoadingState extends AppState {}
+
+class ResetPasswordDoneState extends AppState {}
+
+class ResetPasswordErrorState extends AppState {
+  final String error;
+
+  ResetPasswordErrorState({required this.error});
+}
+
 class GetUserDataLoadingState extends AppState {}
 
 class GetUserDataDoneState extends AppState {}

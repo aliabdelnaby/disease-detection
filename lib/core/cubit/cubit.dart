@@ -266,6 +266,21 @@ class AppCubit extends Cubit<AppState> {
     await FirebaseAuth.instance.currentUser!.sendEmailVerification();
   }
 
+  //! Reset Password Link Method
+  Future<void> resetPasswordLink({required String email}) async {
+    try {
+      emit(ResetPasswordLoadingState());
+      await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
+      emit(ResetPasswordDoneState());
+    } catch (e) {
+      emit(
+        ResetPasswordErrorState(
+          error: e.toString(),
+        ),
+      );
+    }
+  }
+
   //! Sign Out Method
   void signOut() async {
     try {
