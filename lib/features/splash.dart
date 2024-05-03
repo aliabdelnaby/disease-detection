@@ -13,9 +13,11 @@ class SplashScreen extends StatelessWidget {
     return AnimatedSplashScreen(
       splash: Lottie.asset('assets/lottie_animations/splash.json'),
       backgroundColor: Colors.lightBlue,
-      nextScreen: FirebaseAuth.instance.currentUser != null
-          ? const Homepage()
-          : const IntroductionPage(),
+      nextScreen: FirebaseAuth.instance.currentUser == null
+          ? const IntroductionPage()
+          : FirebaseAuth.instance.currentUser!.emailVerified == true
+              ? const Homepage()
+              : const IntroductionPage(),
       splashIconSize: 300,
       duration: 2000,
       splashTransition: SplashTransition.fadeTransition,

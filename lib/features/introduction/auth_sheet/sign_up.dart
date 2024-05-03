@@ -29,10 +29,10 @@ class _SignUpState extends State<SignUp> {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
               backgroundColor: Colors.green,
-              content: Text('Your account has been created'),
+              content: Text('Done, Check your email to verify your account'),
             ),
           );
-          Navigator.of(context).pushReplacementNamed('/Home');
+          Navigator.of(context).pushReplacementNamed('/intro');
         }
         if (state is SignUpErrorState) {
           ScaffoldMessenger.of(context).showSnackBar(
@@ -119,40 +119,6 @@ class _SignUpState extends State<SignUp> {
                         ),
                       ),
                       SizedBox(height: deviceSize.height * 0.02),
-                      // MyFormField(
-                      //   label: 'Re-Password',
-                      //   hint: 'Enter your password again',
-                      //   prefixIcon: Icons.lock,
-                      //   isPassword: isPassword,
-                      //   controller: repasswordController,
-                      //   validator: (value) {
-                      //     if (value.isEmpty) {
-                      //       return 'Please enter your password again';
-                      //     } else if (value != passwordController.text) {
-                      //       return 'Password not match';
-                      //     }
-                      //   },
-                      //   suffixIcon: IconButton(
-                      //     icon: Icon(
-                      //       Icons.remove_red_eye,
-                      //       color: isPassword ? Colors.grey : Colors.blue,
-                      //     ),
-                      //     onPressed: () {
-                      //       setState(() {
-                      //         isPassword = !isPassword;
-                      //       });
-                      //     },
-                      //   ),
-                      //   onSubmit: (value) {
-                      //     if (_formKey.currentState!.validate()) {
-                      //       cubit.signUp(
-                      //         email: emailController.text,
-                      //         password: passwordController.text,
-                      //         name: nameController.text,
-                      //       );
-                      //     }
-                      //   },
-                      // ),
                       SizedBox(height: deviceSize.height * 0.02),
                       const SizedBox(height: 10),
                       state is SignUpLoadingState

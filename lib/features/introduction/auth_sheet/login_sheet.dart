@@ -1,4 +1,5 @@
 // ignore_for_file: must_be_immutable
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -45,14 +46,23 @@ class _AuthSheetState extends State<AuthSheet> {
             ),
           );
         } else if (state is SignInDoneState) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              backgroundColor: Colors.green,
-              content: Text('Welcome Back!'),
-            ),
-          );
-          Navigator.of(context)
-              .pushNamedAndRemoveUntil('/Home', (route) => false);
+          if (FirebaseAuth.instance.currentUser!.emailVerified) {
+            Navigator.of(context)
+                .pushNamedAndRemoveUntil('/Home', (route) => false);
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                backgroundColor: Colors.green,
+                content: Text('Welcome Back!'),
+              ),
+            );
+          } else {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                backgroundColor: Colors.red,
+                content: Text('Please verify your account'),
+              ),
+            );
+          }
         }
       },
       builder: (context, state) {
@@ -164,35 +174,39 @@ class _AuthSheetState extends State<AuthSheet> {
                               height: 20,
                             ),
                             const SizedBox(height: 12),
-                            ElevatedButton(
-                              onPressed: () async {
-                                if (_formKey.currentState!.validate()) {
-                                  cubit.signIn(
-                                    email: emailController.text,
-                                    password: passwordController.text,
-                                  );
-                                }
-                                FocusScope.of(context).unfocus();
-                              },
-                              style: ElevatedButton.styleFrom(
-                                foregroundColor: const Color(0xff03045E),
-                                elevation: 5,
-                                shadowColor: Colors.black,
-                                backgroundColor: Colors.white,
-                                textStyle: const TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(20),
-                                ),
-                                minimumSize: Size(
-                                  deviceSize.width * 1,
-                                  deviceSize.height * 0.075,
-                                ),
-                              ),
-                              child: const Text('Sign in'),
-                            ),
+                            state is SignInLoadingState
+                                ? const CircularProgressIndicator(
+                                    color: Colors.white,
+                                  )
+                                : ElevatedButton(
+                                    onPressed: () async {
+                                      if (_formKey.currentState!.validate()) {
+                                        cubit.signIn(
+                                          email: emailController.text,
+                                          password: passwordController.text,
+                                        );
+                                      }
+                                      FocusScope.of(context).unfocus();
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                      foregroundColor: const Color(0xff03045E),
+                                      elevation: 5,
+                                      shadowColor: Colors.black,
+                                      backgroundColor: Colors.white,
+                                      textStyle: const TextStyle(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(20),
+                                      ),
+                                      minimumSize: Size(
+                                        deviceSize.width * 1,
+                                        deviceSize.height * 0.075,
+                                      ),
+                                    ),
+                                    child: const Text('Sign in'),
+                                  ),
                             const SizedBox(height: 12),
                             SizedBox(
                               height: 24,

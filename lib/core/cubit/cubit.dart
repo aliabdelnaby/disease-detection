@@ -177,6 +177,7 @@ class AppCubit extends Cubit<AppState> {
         });
       }
       getUserData(user!.uid);
+      await verifyEmail();
       emit(SignUpDoneState());
       return user;
     } on FirebaseAuthException catch (e) {
@@ -240,19 +241,29 @@ class AppCubit extends Cubit<AppState> {
       getUserData(userCredential.user!.uid);
       emit(SignInDoneState());
     } on FirebaseAuthException catch (e) {
-      if (e.code == 'user-not-found') {
-        emit(SignInErrorState(error: "No user found for that email."));
-      } else if (e.code == 'wrong-password') {
-        emit(SignInErrorState(error: "Wrong password provided for that user."));
-      } else {
-        emit(SignInErrorState(error: 'Check your Email and password!'));
-      }
+      _signInHandleException(e);
     } catch (e) {
       if (kDebugMode) {
         print(e.toString());
       }
       emit(SignInErrorState(error: e.toString()));
     }
+  }
+
+  //! Sign In Handle Exception
+  void _signInHandleException(FirebaseAuthException e) {
+    if (e.code == 'user-not-found') {
+      emit(SignInErrorState(error: "No user found for that email."));
+    } else if (e.code == 'wrong-password') {
+      emit(SignInErrorState(error: "Wrong password provided for that user."));
+    } else {
+      emit(SignInErrorState(error: 'Check your Email and password!'));
+    }
+  }
+
+  //! Verify Email Method
+  Future<void> verifyEmail() async {
+    await FirebaseAuth.instance.currentUser!.sendEmailVerification();
   }
 
   //! Sign Out Method
