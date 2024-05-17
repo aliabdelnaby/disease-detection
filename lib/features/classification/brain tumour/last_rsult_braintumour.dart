@@ -69,7 +69,7 @@ class _lastresult extends State<lastresultbrain> {
       body: cubit.iimage == null
           ? const Center(
               child: Text(
-                "There is not result yet",
+                "There is no result yet",
                 style: TextStyle(
                   fontSize: 22,
                 ),

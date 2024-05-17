@@ -155,7 +155,7 @@ class PneumoniaScreen extends StatelessWidget {
                                       ),
                                     );
                                     cubit.clearImage();
-                                    cubit.loadModel();
+                                    cubit.loadPneumoniaModel();
                                   },
                                   child: Container(
                                     height: 125,

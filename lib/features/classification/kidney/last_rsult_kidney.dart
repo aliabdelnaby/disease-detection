@@ -3,14 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:medical_corner/core/cubit/cubit.dart';
 
-class lastresult extends StatefulWidget {
-  const lastresult({super.key});
+class lastresultKidney extends StatefulWidget {
+  const lastresultKidney({super.key});
 
   @override
   _lastresult createState() => _lastresult();
 }
 
-class _lastresult extends State<lastresult> {
+class _lastresult extends State<lastresultKidney> {
   ScrollController? _scrollController;
   var top = 0.0;
   @override

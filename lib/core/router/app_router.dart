@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:medical_corner/features/classification/kidney/kidney.dart';
 
 import '../../features/classification/brain%20tumour/brain_tumour.dart';
 import '../../features/classification/pneumonia/pneumonia_screen.dart';
@@ -37,6 +38,9 @@ class AppRouter {
       case brainScreen:
         return CustomPageRoute(
             direction: AxisDirection.left, child: const BrainScreen());
+      case kidney:
+        return CustomPageRoute(
+            direction: AxisDirection.left, child: const KidneyScreen());
       case diabetesScreen:
         return CustomPageRoute(
             direction: AxisDirection.left, child: const DiabetesScreen());

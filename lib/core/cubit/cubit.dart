@@ -25,19 +25,21 @@ class AppCubit extends Cubit<AppState> {
   double postop = 0.8;
 
   //! Load Pneumonia Model
-  Future loadModel() async {
+  Future loadPneumoniaModel() async {
     Tflite.close();
     emit(ModelLoadedSTate());
     await Tflite.loadModel(
       model: "assets/tflite_models/model.tflite",
       labels: "assets/tflite_models/labels.txt",
-    ).then((value) {
-      loading = false;
-      emit(ModelLoadedSTate());
-      if (kDebugMode) {
-        print('pneumonia model loaded');
-      }
-    });
+    ).then(
+      (value) {
+        loading = false;
+        emit(ModelLoadedSTate());
+        if (kDebugMode) {
+          print('pneumonia model loaded');
+        }
+      },
+    );
   }
 
   //! Load Brain Tumour Model
@@ -47,13 +49,33 @@ class AppCubit extends Cubit<AppState> {
     await Tflite.loadModel(
       model: "assets/tflite_models/model_brain_tumour.tflite",
       labels: "assets/tflite_models/labels_brain_tumour.txt",
-    ).then((value) {
-      loading = false;
-      emit(ModelLoadedSTate());
-      if (kDebugMode) {
-        print('brain tumour model loaded');
-      }
-    });
+    ).then(
+      (value) {
+        loading = false;
+        emit(ModelLoadedSTate());
+        if (kDebugMode) {
+          print('brain tumour model loaded');
+        }
+      },
+    );
+  }
+
+  //! Load Kidney Model
+  Future loadKidneyModel() async {
+    Tflite.close();
+    emit(ModelLoadedSTate());
+    await Tflite.loadModel(
+      model: "assets/tflite_models/model_kidney_unquant.tflite",
+      labels: "assets/tflite_models/labels_kidney.txt",
+    ).then(
+      (value) {
+        loading = false;
+        emit(ModelLoadedSTate());
+        if (kDebugMode) {
+          print('Kidney model loaded');
+        }
+      },
+    );
   }
 
   //! Pick Image From Phone

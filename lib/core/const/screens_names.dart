@@ -9,3 +9,4 @@ const String introductionPage = '/intro';
 const String splashScreen = '/';
 const String contactus = '/contact';
 const String signup = '/signup';
+const String kidney = '/k';

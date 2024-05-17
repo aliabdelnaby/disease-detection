@@ -27,26 +27,12 @@ class Homepage extends StatelessWidget {
             elevation: 0,
             backgroundColor: Colors.transparent,
             centerTitle: true,
-            title: SizedBox(
-              height: 48,
-              width: 280,
-              child: Padding(
-                padding: const EdgeInsets.only(
-                  top: 3.0,
-                ),
-                child: TextFormField(
-                  decoration: InputDecoration(
-                    fillColor: Colors.white,
-                    filled: true,
-                    prefixIcon: const Icon(
-                      Icons.search,
-                      color: Color(0xff03045E),
-                    ),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                  ),
-                ),
+            title: const Text(
+              'Medical Corner',
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 28,
+                color: Color(0xff03045E),
               ),
             ),
             actions: const [
@@ -61,12 +47,14 @@ class Homepage extends StatelessWidget {
                 ),
               ),
             ],
-            leading: Builder(builder: (context) {
-              return IconButton(
-                onPressed: () => Scaffold.of(context).openDrawer(),
-                icon: SvgPicture.asset("assets/menu.svg"),
-              );
-            }),
+            leading: Builder(
+              builder: (context) {
+                return IconButton(
+                  onPressed: () => Scaffold.of(context).openDrawer(),
+                  icon: SvgPicture.asset("assets/menu.svg"),
+                );
+              },
+            ),
           ),
           body: Container(
             decoration: const BoxDecoration(
@@ -118,6 +106,15 @@ class Homepage extends StatelessWidget {
                                 child: const DiseaseCard(
                                   image: 'Brain Tumour.jpg',
                                   diseaseName: 'Brain Tumour',
+                                ),
+                              ),
+                              InkWell(
+                                onTap: () {
+                                  Navigator.pushNamed(context, '/k');
+                                },
+                                child: const DiseaseCard(
+                                  image: 'kidney disease.png',
+                                  diseaseName: 'Kidney Disease',
                                 ),
                               ),
                             ],
