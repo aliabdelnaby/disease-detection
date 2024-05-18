@@ -141,7 +141,7 @@ class Homepage extends StatelessWidget {
                                 },
                                 child: const DiseaseCard(
                                   image: 'Heart Disease.jpg',
-                                  diseaseName: 'Heart Disease',
+                                  diseaseName: 'Heart Attack',
                                 ),
                               ),
                               InkWell(

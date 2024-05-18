@@ -6,7 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:medical_corner/core/cubit/cubit.dart';
 import 'package:medical_corner/core/cubit/states.dart';
 import 'package:medical_corner/features/custom_widgets/my_form_field.dart';
-import 'package:medical_corner/features/introduction/auth_sheet/forgotten.dart';
+import 'package:medical_corner/features/auth/auth_sheet/forgotten.dart';
 import 'package:medical_corner/features/introduction/paints/auth_sheet_paint/auth_sheet_paint.dart';
 
 class AuthSheet extends StatefulWidget {

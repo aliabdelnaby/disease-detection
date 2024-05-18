@@ -4,7 +4,7 @@ import 'package:medical_corner/features/classification/kidney/kidney.dart';
 import '../../features/classification/brain%20tumour/brain_tumour.dart';
 import '../../features/classification/pneumonia/pneumonia_screen.dart';
 import '../../features/home/home.dart';
-import '../../features/introduction/auth_sheet/sign_up.dart';
+import '../../features/auth/auth_sheet/sign_up.dart';
 import '../../features/introduction/introduction.dart';
 import '../../features/nvdrawer/aboutus.dart';
 import '../../features/nvdrawer/contactus.dart';

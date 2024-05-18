@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../core/cubit/cubit.dart';
 import '../../core/cubit/states.dart';
-import 'auth_sheet/login_sheet.dart';
+import '../auth/auth_sheet/login_sheet.dart';
 import 'paints/desc_paint/desc_paint.dart';
 
 class IntroductionPage extends StatefulWidget {

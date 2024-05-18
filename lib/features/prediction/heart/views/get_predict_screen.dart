@@ -173,7 +173,7 @@ class _GetPredictScreenState extends State<GetPredictScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const SizedBox(
-                    height: 40,
+                    height: 50,
                   ),
                   Center(
                     child: Text(
@@ -181,7 +181,7 @@ class _GetPredictScreenState extends State<GetPredictScreen> {
                       textAlign: TextAlign.center,
                       style: GoogleFonts.poppins(
                         textStyle: const TextStyle(
-                          color: Colors.purple,
+                          color: Color(0xff004EC4),
                           fontSize: 25,
                           fontWeight: FontWeight.w500,
                         ),
@@ -278,7 +278,7 @@ class _GetPredictScreenState extends State<GetPredictScreen> {
                       padding: const EdgeInsets.symmetric(vertical: 15),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(8),
-                        color: Colors.purple,
+                        color: const Color(0xff004EC4),
                       ),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
