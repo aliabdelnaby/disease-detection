@@ -346,7 +346,6 @@ class AppCubit extends Cubit<AppState> {
     Map<String, dynamic>? bodyJson,
     String? token,
   }) async {
-
     final url = Uri.parse('$baseUrl/$path');
     try {
       emit(GetDataHeartLoadingState());
@@ -364,7 +363,12 @@ class AppCubit extends Cubit<AppState> {
           print("======== Done :${response.body}");
         }
       }
-      emit(GetDataHeartSuccessState());
+      final responseData = json.decode(response.body);
+      if (responseData['isError'] == false) {
+        final data = responseData['data'];
+        final percentage = _roundProbabilityToTwoDecimals(data);
+        emit(GetDataHeartSuccessState(percentage: percentage));
+      }
       return response;
     } catch (e) {
       emit(GetDataHeartFailureState(error: e.toString()));
@@ -373,8 +377,21 @@ class AppCubit extends Cubit<AppState> {
     return null;
   }
 
-//!
+  String _roundProbabilityToTwoDecimals(dynamic data) {
+    String text = '';
+    try {
+      double number = double.parse(data.toString());
+      int num = number.toInt();
+      text = num.toString();
+    } catch (e) {
+      if (kDebugMode) {
+        print(e);
+      }
+    }
+    return text;
+  }
 
+  //! get predictions
   bool _isLoading = false;
   bool get isLoading => _isLoading;
   //* get predictions

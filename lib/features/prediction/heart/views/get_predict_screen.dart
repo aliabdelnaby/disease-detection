@@ -133,7 +133,27 @@ class _GetPredictScreenState extends State<GetPredictScreen> {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
               content: Text("Data predicted successfully"),
+              backgroundColor: Colors.green,
             ),
+          );
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                content: Text(
+                  'Probability of you having a heart attack is: ${state.percentage.toString()}%',
+                  style: const TextStyle(fontSize: 24),
+                ),
+                actions: [
+                  TextButton(
+                    child: const Text('OK'),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                ],
+              );
+            },
           );
         } else if (state is GetDataHeartFailureState) {
           ScaffoldMessenger.of(context).showSnackBar(

@@ -75,7 +75,12 @@ class GetUserDataErrorState extends AppState {
 
 class GetDataHeartLoadingState extends AppState {}
 
-class GetDataHeartSuccessState extends AppState {}
+class GetDataHeartSuccessState extends AppState {
+    final String percentage;
+
+  GetDataHeartSuccessState({required this.percentage});
+
+}
 
 class GetDataHeartFailureState extends AppState {
   final String error;
