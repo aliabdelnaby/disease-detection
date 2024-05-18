@@ -37,7 +37,7 @@ class AppCubit extends Cubit<AppState> {
     emit(ModelLoadedSTate());
     await Tflite.loadModel(
       model: "assets/tflite_models/model.tflite",
-      labels: "assets/tflite_models/labels.txt",
+      labels: "assets/tflite_models/labels_pneumonia.txt",
     ).then(
       (value) {
         loading = false;
@@ -372,7 +372,6 @@ class AppCubit extends Cubit<AppState> {
       return response;
     } catch (e) {
       emit(GetDataHeartFailureState(error: e.toString()));
-      // throw HttpException('Failed to fetch data: $e');
     }
     return null;
   }
@@ -380,9 +379,11 @@ class AppCubit extends Cubit<AppState> {
   String _roundProbabilityToTwoDecimals(dynamic data) {
     String text = '';
     try {
-      double number = double.parse(data.toString());
-      int num = number.toInt();
-      text = num.toString();
+      String dataString = data.toString();
+      text = dataString.substring(0, 2);
+      if (kDebugMode) {
+        print("Percentage: $text%");
+      }
     } catch (e) {
       if (kDebugMode) {
         print(e);
