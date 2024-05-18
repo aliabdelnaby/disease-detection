@@ -2,9 +2,9 @@ import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
-import 'package:medical_corner/features/home.dart';
+import 'package:medical_corner/features/home/home.dart';
 import 'package:page_transition/page_transition.dart';
-import 'introduction/introduction.dart';
+import '../introduction/introduction.dart';
 
 class SplashScreen extends StatelessWidget {
   const SplashScreen({super.key});

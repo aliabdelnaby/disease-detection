@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-import '../core/cubit/cubit.dart';
-import '../core/cubit/states.dart';
-import 'custom_widgets/disease_card.dart';
-import 'news/data_models/news.dart';
-import 'news/news_component.dart';
-import 'nvdrawer/nvdrawer.dart';
+import '../../core/cubit/cubit.dart';
+import '../../core/cubit/states.dart';
+import '../custom_widgets/disease_card.dart';
+import '../news/data_models/news.dart';
+import '../news/news_component.dart';
+import '../nvdrawer/nvdrawer.dart';
 
 class Homepage extends StatelessWidget {
   const Homepage({super.key});

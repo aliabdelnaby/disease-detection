@@ -71,3 +71,14 @@ class GetUserDataErrorState extends AppState {
 
   GetUserDataErrorState({required this.error});
 }
+
+
+class GetDataHeartLoadingState extends AppState {}
+
+class GetDataHeartSuccessState extends AppState {}
+
+class GetDataHeartFailureState extends AppState {
+  final String error;
+
+  GetDataHeartFailureState({required this.error});
+}

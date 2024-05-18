@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:medical_corner/features/prediction/heart/views/get_predict_screen.dart';
 
-import '../custom_widgets/open_close_Text_box.dart';
+import '../../../custom_widgets/open_close_Text_box.dart';
 
 class HeartDisease extends StatelessWidget {
   const HeartDisease({super.key});
@@ -133,7 +134,15 @@ class HeartDisease extends StatelessWidget {
                         Column(
                           children: [
                             InkWell(
-                              onTap: () {},
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        const GetPredictScreen(),
+                                  ),
+                                );
+                              },
                               child: Container(
                                 height: 125,
                                 width: 125,

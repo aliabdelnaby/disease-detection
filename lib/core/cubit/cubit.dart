@@ -1,14 +1,21 @@
+// ignore_for_file: use_build_context_synchronously
+
+import 'dart:convert';
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:http/http.dart' as http;
 import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:medical_corner/core/Network/firebase%20service/userf.dart';
 import 'package:medical_corner/core/Network/news%20api%20service/dio_helper.dart';
 import 'package:medical_corner/core/cubit/states.dart';
 import 'package:medical_corner/features/news/data_models/news.dart';
+import 'package:medical_corner/features/prediction/heart/models/predicts_req_model.dart';
+import 'package:medical_corner/features/prediction/heart/models/predicts_res_model.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:tflite/tflite.dart';
 
@@ -329,5 +336,102 @@ class AppCubit extends Cubit<AppState> {
       return null;
     }
     return null;
+  }
+
+  //! http post heart attack predictions
+
+  static const String baseUrl = 'http://10.0.2.2:5000';
+  Future<http.Response?> postRequest(
+    String path, {
+    Map<String, dynamic>? bodyJson,
+    String? token,
+  }) async {
+
+    final url = Uri.parse('$baseUrl/$path');
+    try {
+      emit(GetDataHeartLoadingState());
+      final body = json.encode(bodyJson);
+      final response = await http.post(
+        url,
+        body: body,
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
+      );
+      if (response.statusCode == 200) {
+        if (kDebugMode) {
+          print("======== Done :${response.body}");
+        }
+      }
+      emit(GetDataHeartSuccessState());
+      return response;
+    } catch (e) {
+      emit(GetDataHeartFailureState(error: e.toString()));
+      // throw HttpException('Failed to fetch data: $e');
+    }
+    return null;
+  }
+
+//!
+
+  bool _isLoading = false;
+  bool get isLoading => _isLoading;
+  //* get predictions
+  //INPUT: buildcontext and reqModel(which contains post request body data)
+  //DO: do the api call get response, error handle if error occurs, if everythings good navigate to
+  //preidctions screen(with response data)
+  //RETURN: none|void
+  void getPredicts(BuildContext cxt, PredictReqModel reqData) async {
+    //make isLoading true to show the loading indicator in ui
+    _isLoading = true;
+    // notifyListeners();
+    try {
+      final res = await postRequest("/heart-attack/predictions",
+          bodyJson: reqData.toJson());
+
+      if (res == null) {
+        _isLoading = false;
+        // notifyListeners();
+        return;
+      }
+
+      PredicResModel searchResultsRes =
+          PredicResModel.fromJson(jsonDecode(res.body));
+
+      if (searchResultsRes.isError) {
+        if (cxt.mounted) {
+          SnackBar snackBar = SnackBar(
+            content: Text(searchResultsRes.msg),
+            duration: const Duration(seconds: 2),
+          );
+          ScaffoldMessenger.of(cxt).showSnackBar(snackBar);
+        }
+        _isLoading = false;
+        // notifyListeners();
+        return;
+      }
+
+      _isLoading = false;
+      // notifyListeners();
+
+      // PredicResModel? data = searchResultsRes.data;
+      // if (cxt.mounted) {
+      //   Navigator.push(cxt,
+      //       MaterialPageRoute(builder: (context) => PredictionsScreen(data)));
+      // }
+    } catch (e) {
+      _isLoading = false;
+      // notifyListeners();
+      if (kDebugMode) {
+        print("error: $e -------------------");
+      }
+      SnackBar snackBar = const SnackBar(
+        content: Text("Some error occured fetching results"),
+        duration: Duration(seconds: 2),
+      );
+      ScaffoldMessenger.of(cxt).showSnackBar(snackBar);
+      return;
+    }
   }
 }
