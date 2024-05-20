@@ -1,16 +1,25 @@
-# medical_corner
+<h1 align="center" id="title">Disease Detection</h1>
 
-A new Flutter project.
+<p id="description">A mobile application detects pneumonia brain tumors and kidney disease and predicts heart attacks using artificial intelligence models by inputting X-ray images and to predict heart attacks by entering specific data.</p>
 
-## Getting Started
+  
+  
+<h2>🧐 Features</h2>
 
-This project is a starting point for a Flutter application.
+Here're some of the project's best features:
 
-A few resources to get you started if this is your first Flutter project:
+*   Authintication
+*   Show the latest result
+*   Possibility of saving the result
+*   API to display news about health
+*   Display the disease confirmation rate
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+  
+  
+<h2>💻 Built with</h2>
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Technologies used in the project:
+
+*   Firebase authentication
+*   tflite packages
+*   predicts heart attacks using flask api
