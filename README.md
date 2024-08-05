@@ -2,7 +2,7 @@
 
 <p id="description">A mobile application detects pneumonia brain tumors and kidney disease and predicts heart attacks using artificial intelligence models by inputting X-ray images and to predict heart attacks by entering specific data.</p>
 
-  
+  https://github.com/user-attachments/assets/eaf43e86-50d7-415d-b1ad-46eb131469a9
   
 <h2>🧐 Features</h2>
 
